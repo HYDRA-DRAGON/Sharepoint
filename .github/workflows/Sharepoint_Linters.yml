@@ -1,0 +1,34 @@
+name: SharePoint CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the SPFx project
+        run: gulp bundle --ship
+
+      - name: Package the solution
+        run: gulp package-solution --ship
+
+      - name: Deploy to SharePoint
+        run: |
+          # Add commands to upload your package to SharePoint app catalog
+          # e.g., using the SharePoint PnP PowerShell module or Office 365 CLI
+          echo "Deploying to SharePoint..."
